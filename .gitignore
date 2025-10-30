@@ -1,2 +1,44 @@
-# macOS junk
+# --- macOS junk ---
 .DS_Store
+
+# --- Python cache / compiled files ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual environments (common names) ---
+venv/
+.env/
+.venv/
+env/
+
+# --- Editor / IDE settings ---
+.vscode/
+.idea/
+
+# --- Python packaging / build artifacts ---
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# --- Test / coverage caches ---
+.coverage
+.pytest_cache/
+htmlcov/
+
+# --- Type checker / static analysis caches ---
+.mypy_cache/
+.pyre/
+
+# --- Logs, local databases, temporary files ---
+*.log
+*.sqlite3
+
+# --- Data files (ignore actual data but keep a sample) ---
+data/*.json
+!data/user_data_template.json
+
+# --- Secrets / environment variables ---
+.env
+secrets.json
