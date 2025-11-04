@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 """
 The application should run from the command line, accept user actions and inputs as arguments, and store the tasks in a JSON file. 
@@ -32,6 +33,26 @@ Task Properties:
 
 
 """
+class Task:
+    """
+    Initialize values and add functions as needed.
+
+
+    * ADD FUNCTION (either will be in the class or outside function)
+        * When a Task object is first created, it needs to be stored in a container so later, we can look at the size of the container, 
+          to know what id we are on.
+        * Id tracking can work many different ways. My first though is, lets use a to store the ids as keys and the task object data as the value. 
+        * Issues that need to be handled. If task 2 is deleted, should the user be able to make a new task 2? Id say no, because no function 
+        lets them add a task with a specific id, just update specific ids. 
+        * Other idea if dictionary does not work, we can store the id numbers in a container, check the max values of container and add 
+          that + 1 to the id.
+        * When add is called, a task should be created. The id should increment by 1, the descrption should take the string of add, 
+          the status should default to not started, createdAt needs to be grabbed from the computer, and updatedAt defaults to None since is was just created
+    """
+    pass
+
+def add_task(task): # Start by making add task be able to take the argument, and create a Task object and be able to update the id.
+    pass
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -43,18 +64,18 @@ if __name__ == "__main__":
     # to be done by doing --command_name input. The terminal will also tell you how to input it if you do the help command. Optional arguments
     # have a changable order, compared to the fixed order of positional as well.
     parser.add_argument("--add", help="Adds a task to the tracker. Takes a string.")
-    parser.add_argument("--update", nargs=2, help="Updates a task. Takes the id of the task and a new string")
-    # parser.add_argument("delete", help="Deletes a selected task. Takes the id of the task.")
-    # parser.add_argument("mark_in_progress", help="Marks a selected task as in progress. Takes the id of the task.")
-    # parser.add_argument("mark_done", help="Marks a selected task as done. Takes the id of the task.")
-    # parser.add_argument("list_all", help="Lists all the tasks.")
-    # parser.add_argument("list_done", help="Lists all the tasks that are done.")
-    # parser.add_argument("list_todo", help="Lists all the tasks that are not started.")
-    # parser.add_argument("list_in_progress", help="Lists all the tasks that are in progress.")
+    # parser.add_argument("--update", nargs=2, help="Updates a task. Takes the id of the task and a new string")
+    # parser.add_argument("--delete", type=int, help="Deletes a selected task. Takes the id of the task.")
+    # parser.add_argument("--mark-in-progress", type=int, help="Marks a selected task as in progress. Takes the id of the task.")
+    # parser.add_argument("--mark-done", type=int, help="Marks a selected task as done. Takes the id of the task.")
+    # parser.add_argument("--list", help="Lists all the tasks.")
+    # parser.add_argument("--list done", help="Lists all the tasks that are done.")
+    # parser.add_argument("--list todo", help="Lists all the tasks that are not started.")
+    # parser.add_argument("--list in-progress", help="Lists all the tasks that are in progress.")
 
     args = parser.parse_args()
 
-    print(args.add)
+    if sys.argv[1] == "--add": # gets name of command
+        add_task(args.add)
 
-    args.update[0] = int(args.update[0]) # Converts first argument of update into an int from the list.
-    print(args.update)
+    # UNCOMMENT LATER: args.update[0] = int(args.update[0]) # Converts first argument of update into an int from the list.
