@@ -36,8 +36,7 @@ Task Properties:
 class Task:
     """
     Initialize values and add functions as needed.
-
-
+    
     * ADD FUNCTION (either will be in the class or outside function)
         * When a Task object is first created, it needs to be stored in a container so later, we can look at the size of the container, 
           to know what id we are on.
@@ -49,10 +48,25 @@ class Task:
         * When add is called, a task should be created. The id should increment by 1, the descrption should take the string of add, 
           the status should default to not started, createdAt needs to be grabbed from the computer, and updatedAt defaults to None since is was just created
     """
+    def __init__(self, id=-1, description="N/A", status="N/A", createdAt="N/A", updatedAt="N/A"): # when new object is created. MAY or MAY NOT keep. Can still give values in a function.
+        self.id = id
+        self.description = description
+        self.status = status
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    
+    def info(self):
+        print(f"id: {self.id} | description: {self.description} | status: {self.status} | createdAt: {self.createdAt} | updatedAt: {self.updatedAt}")
     pass
 
-def add_task(task): # Start by making add task be able to take the argument, and create a Task object and be able to update the id.
-    pass
+def add_task(id, descrption): # Start by making add task be able to take the argument, and create a Task object and be able to update the id.
+    print(id, descrption)
+    status = "todo"
+    createdAt = "[Insert time]"
+    updatedAt = "Has not been updated"
+    new_t = Task(id, descrption, status, createdAt, updatedAt)
+    new_t.info()
+    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -63,7 +77,7 @@ if __name__ == "__main__":
     # if you add -- in front of the command, it becomes optional, meaning it does not have to be written. However if you do write it, it needs
     # to be done by doing --command_name input. The terminal will also tell you how to input it if you do the help command. Optional arguments
     # have a changable order, compared to the fixed order of positional as well.
-    parser.add_argument("--add", help="Adds a task to the tracker. Takes a string.")
+    parser.add_argument("--add", help="Adds a task to the tracker. Takes a string input. Returns input.")
     # parser.add_argument("--update", nargs=2, help="Updates a task. Takes the id of the task and a new string")
     # parser.add_argument("--delete", type=int, help="Deletes a selected task. Takes the id of the task.")
     # parser.add_argument("--mark-in-progress", type=int, help="Marks a selected task as in progress. Takes the id of the task.")
@@ -75,7 +89,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    id = 0
     if sys.argv[1] == "--add": # gets name of command
-        add_task(args.add)
+        id += 1
+        add_task(id, args.add)
 
     # UNCOMMENT LATER: args.update[0] = int(args.update[0]) # Converts first argument of update into an int from the list.
