@@ -1,5 +1,6 @@
 import argparse
 import sys
+from datetime import datetime
 
 """
 The application should run from the command line, accept user actions and inputs as arguments, and store the tasks in a JSON file. 
@@ -48,24 +49,29 @@ class Task:
         * When add is called, a task should be created. The id should increment by 1, the descrption should take the string of add, 
           the status should default to not started, createdAt needs to be grabbed from the computer, and updatedAt defaults to None since is was just created
     """
-    def __init__(self, id=-1, description="N/A", status="N/A", createdAt="N/A", updatedAt="N/A"): # when new object is created. MAY or MAY NOT keep. Can still give values in a function.
+    def __init__(self, id=-1, description="N/A", status="N/A", createdAt="N/A", updatedAt="N/A"):
         self.id = id
         self.description = description
         self.status = status
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-    
-    def info(self):
-        print(f"id: {self.id} | description: {self.description} | status: {self.status} | createdAt: {self.createdAt} | updatedAt: {self.updatedAt}")
-    pass
 
-def add_task(id, descrption): # Start by making add task be able to take the argument, and create a Task object and be able to update the id.
-    print(id, descrption)
+    def __repr__(self):
+        return f"Task(id={self.id}, description={self.description}, status={self.status}, createdAt={self.createdAt}, updatedAt={self.updatedAt})"
+    
+    def __str__(self):
+        return f"id: {self.id} | description: {self.description} | status: {self.status} | createdAt: {self.createdAt} | updatedAt: {self.updatedAt}"
+
+def add_task(id, descrption):
     status = "todo"
-    createdAt = "[Insert time]"
-    updatedAt = "Has not been updated"
-    new_t = Task(id, descrption, status, createdAt, updatedAt)
-    new_t.info()
+    raw_date_time = datetime.now()
+    clean_date_time = raw_date_time.strftime("%d/%m/%Y, %I:%M %p")
+    createdAt = clean_date_time
+    updatedAt = "Has not been updated yet"
+    new_task = Task(id, descrption, status, createdAt, updatedAt)
+
+    return new_task
+
     
 
 if __name__ == "__main__":
@@ -90,8 +96,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     id = 0
-    if sys.argv[1] == "--add": # gets name of command
+    task_container = []
+    if sys.argv[1] == "--add":
         id += 1
-        add_task(id, args.add)
-
+        task_container.append(add_task(id, args.add))
+    
     # UNCOMMENT LATER: args.update[0] = int(args.update[0]) # Converts first argument of update into an int from the list.
