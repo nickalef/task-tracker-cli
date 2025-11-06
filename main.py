@@ -1,6 +1,7 @@
 import argparse
 import sys
 from datetime import datetime
+import json
 
 """
 The application should run from the command line, accept user actions and inputs as arguments, and store the tasks in a JSON file. 
@@ -61,6 +62,21 @@ class Task:
     
     def __str__(self):
         return f"id: {self.id} | description: {self.description} | status: {self.status} | createdAt: {self.createdAt} | updatedAt: {self.updatedAt}"
+    
+    def get_id(self):
+        return self.id
+    
+    def get_description(self):
+        return self.description
+    
+    def get_status(self):
+        return self.status
+    
+    def get_createdAt(self):
+        return self.createdAt
+
+    def get_updatedAt(self):
+        return self.updatedAt
 
 def add_task(id, descrption):
     status = "todo"
@@ -69,20 +85,12 @@ def add_task(id, descrption):
     createdAt = clean_date_time
     updatedAt = "Has not been updated yet"
     new_task = Task(id, descrption, status, createdAt, updatedAt)
-
-    return new_task
-
     
+    return new_task
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    # how argparse works in terminal
-    # python3 main.py commands
-    # a positional argument is the default argument when writing the name of the command. It forces you to input for that argument.
-    # if you add -- in front of the command, it becomes optional, meaning it does not have to be written. However if you do write it, it needs
-    # to be done by doing --command_name input. The terminal will also tell you how to input it if you do the help command. Optional arguments
-    # have a changable order, compared to the fixed order of positional as well.
     parser.add_argument("--add", help="Adds a task to the tracker. Takes a string input. Returns input.")
     # parser.add_argument("--update", nargs=2, help="Updates a task. Takes the id of the task and a new string")
     # parser.add_argument("--delete", type=int, help="Deletes a selected task. Takes the id of the task.")
@@ -96,9 +104,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     id = 0
-    task_container = []
+    task_data = {}
     if sys.argv[1] == "--add":
         id += 1
-        task_container.append(add_task(id, args.add))
+        place_holder_name = (add_task(id, args.add))
+        # task_data.update(i : z.id)
     
+
     # UNCOMMENT LATER: args.update[0] = int(args.update[0]) # Converts first argument of update into an int from the list.
