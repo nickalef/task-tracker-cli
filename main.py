@@ -76,30 +76,30 @@ def add_task(id, descrption):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--add", help="Adds a task to the tracker. Takes a string input. Returns input.")
-    # parser.add_argument("--update", nargs=2, help="Updates a task. Takes the id of the task and a new string")
-    # parser.add_argument("--delete", type=int, help="Deletes a selected task. Takes the id of the task.")
-    # parser.add_argument("--mark-in-progress", type=int, help="Marks a selected task as in progress. Takes the id of the task.")
-    # parser.add_argument("--mark-done", type=int, help="Marks a selected task as done. Takes the id of the task.")
-    # parser.add_argument("--list", help="Lists all the tasks.")
-    # parser.add_argument("--list done", help="Lists all the tasks that are done.")
-    # parser.add_argument("--list todo", help="Lists all the tasks that are not started.")
-    # parser.add_argument("--list in-progress", help="Lists all the tasks that are in progress.")
+    parser.add_argument("command")
 
     args = parser.parse_args()
 
     id = 0
     task_data = {}
-    if sys.argv[1] == "--add":
+    if sys.argv[1] == "add":
         id += 1
         added_task = (add_task(id, args.add))
-        task_data.update( {added_task.id : #Nested library so ID can be used as key to access the info of the task. If ID is needed, just call the key.
+        task_data = {
+                        added_task.id : #Nested library so ID can be used as key to access the info of the task. If ID is needed, just call the key.
                            {
+                               "description": added_task.description,
                                "status": added_task.status, 
                                "createdAt": added_task.createdAt, 
                                "updatedAt": added_task.updatedAt
-                            }
-                           } )
+                           }
+                    } 
+    else:
+        pass
+
+    with open("data.json", "a") as file:
+        json.dump(task_data, file, indent=2)
+    
     
 
     # UNCOMMENT LATER: args.update[0] = int(args.update[0]) # Converts first argument of update into an int from the list.
