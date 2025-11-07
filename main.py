@@ -62,21 +62,6 @@ class Task:
     
     def __str__(self):
         return f"id: {self.id} | description: {self.description} | status: {self.status} | createdAt: {self.createdAt} | updatedAt: {self.updatedAt}"
-    
-    def get_id(self):
-        return self.id
-    
-    def get_description(self):
-        return self.description
-    
-    def get_status(self):
-        return self.status
-    
-    def get_createdAt(self):
-        return self.createdAt
-
-    def get_updatedAt(self):
-        return self.updatedAt
 
 def add_task(id, descrption):
     status = "todo"
@@ -107,8 +92,14 @@ if __name__ == "__main__":
     task_data = {}
     if sys.argv[1] == "--add":
         id += 1
-        place_holder_name = (add_task(id, args.add))
-        # task_data.update(i : z.id)
+        added_task = (add_task(id, args.add))
+        task_data.update( {added_task.id : #Nested library so ID can be used as key to access the info of the task. If ID is needed, just call the key.
+                           {
+                               "status": added_task.status, 
+                               "createdAt": added_task.createdAt, 
+                               "updatedAt": added_task.updatedAt
+                            }
+                           } )
     
 
     # UNCOMMENT LATER: args.update[0] = int(args.update[0]) # Converts first argument of update into an int from the list.
