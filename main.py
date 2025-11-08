@@ -90,6 +90,7 @@ if __name__ == "__main__":
         id_counter = 1
     else: # check the dictionary for the biggest key, since that key will be the max id in that moment
         id_counter = int(max(task_data.keys())) + 1
+        print(id_counter)
 
     parser = argparse.ArgumentParser()
 
@@ -97,16 +98,17 @@ if __name__ == "__main__":
     parser.add_argument("attribute", nargs="?") #? makes it a opitional positional argument
 
     args = parser.parse_args()
-
-    if sys.argv[1] == "add":
-        added_task = (add_task(id_counter, sys.argv[2])) #should take id and the optional positional command
-        task_data.update(      {added_task.id : {
+    
+    match args.command:
+        case "add":
+            added_task = (add_task(id_counter, args.attribute)) #should take id and the optional positional command
+            task_data.update(      {added_task.id : {
                                "description": added_task.description,
                                "status": added_task.status, 
                                "createdAt": added_task.createdAt, 
                                "updatedAt": added_task.updatedAt}} )
-    else:
-        pass
+        case _:
+            print("Command not found")
 
     with open("data.json", "w") as file:
         json.dump(task_data, file, indent=2)
