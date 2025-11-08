@@ -75,19 +75,22 @@ def add_task(id, descrption):
 
 if __name__ == "__main__":
     task_data = {} # initalize task_data at the start
-    print("T1\n", task_data)
 
     try: # checks if data.json exists
         with open("data.json", "r") as file:
-            print("T2a\n", task_data)
             task_data = json.load(file) # currently loads back id as a string. NEED TO REMEMBER THAT!
     except FileNotFoundError: # if it does not exist, that means it is the first time so we need to create the file.
         with open("data.json", "w") as file:
-            print("T2b\n", task_data)
-            json.dump(task_data, file, indent=4)
+            json.dump(task_data, file, indent=2)
+    except json.decoder.JSONDecodeError:
+        with open("data.json", "w") as file:
+            json.dump(task_data, file, indent=2)
     
-    print("T3\n", task_data)
-    
+    if not bool(task_data): # if dict is empty
+        id_counter = 1
+    else: # check the dictionary for the biggest key, since that key will be the max id in that moment
+        id_counter = int(max(task_data.keys())) + 1
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument("command")
@@ -95,11 +98,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    id = 0
     if sys.argv[1] == "add":
-        id += 1
-        added_task = (add_task(id, sys.argv[2])) #should take id and the optional positional command
-        print("T4\n", task_data)
+        added_task = (add_task(id_counter, sys.argv[2])) #should take id and the optional positional command
         task_data.update(      {added_task.id : {
                                "description": added_task.description,
                                "status": added_task.status, 
@@ -108,7 +108,6 @@ if __name__ == "__main__":
     else:
         pass
 
-    print("T5\n", task_data)
     with open("data.json", "w") as file:
         json.dump(task_data, file, indent=2)
     
