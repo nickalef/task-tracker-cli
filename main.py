@@ -74,32 +74,42 @@ def add_task(id, descrption):
     return new_task
 
 if __name__ == "__main__":
+    task_data = {} # initalize task_data at the start
+    print("T1\n", task_data)
+
+    try: # checks if data.json exists
+        with open("data.json", "r") as file:
+            print("T2a\n", task_data)
+            task_data = json.load(file) # currently loads back id as a string. NEED TO REMEMBER THAT!
+    except FileNotFoundError: # if it does not exist, that means it is the first time so we need to create the file.
+        with open("data.json", "w") as file:
+            print("T2b\n", task_data)
+            json.dump(task_data, file, indent=4)
+    
+    print("T3\n", task_data)
+    
     parser = argparse.ArgumentParser()
 
     parser.add_argument("command")
+    parser.add_argument("attribute", nargs="?") #? makes it a opitional positional argument
 
     args = parser.parse_args()
 
-    id = 0
-    task_data = {}
+    id = 2
     if sys.argv[1] == "add":
         id += 1
-        added_task = (add_task(id, args.add))
-        task_data = {
-                        added_task.id : #Nested library so ID can be used as key to access the info of the task. If ID is needed, just call the key.
-                           {
+        added_task = (add_task(id, sys.argv[2])) #should take id and the optional positional command
+        print("T4\n", task_data)
+        task_data.update(      {added_task.id : {
                                "description": added_task.description,
                                "status": added_task.status, 
                                "createdAt": added_task.createdAt, 
-                               "updatedAt": added_task.updatedAt
-                           }
-                    } 
+                               "updatedAt": added_task.updatedAt}} )
     else:
         pass
 
-    with open("data.json", "a") as file:
+    print("T5\n", task_data)
+    with open("data.json", "w") as file:
         json.dump(task_data, file, indent=2)
     
-    
-
     # UNCOMMENT LATER: args.update[0] = int(args.update[0]) # Converts first argument of update into an int from the list.
