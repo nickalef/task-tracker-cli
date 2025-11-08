@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    id = 2
+    id = 0
     if sys.argv[1] == "add":
         id += 1
         added_task = (add_task(id, sys.argv[2])) #should take id and the optional positional command
