@@ -58,8 +58,13 @@ def add_task(id, descrption):
     
     return new_task
 
-def update_task(id, new_description):
-    pass
+def update_task(new_description, selected_task):
+    raw_date_time = datetime.now()
+    clean_date_time = raw_date_time.strftime("%d/%m/%Y, %I:%M %p")
+    selected_task.update({"description": new_description})
+    selected_task.update({"updatedAt": clean_date_time})
+
+    return None
 
 if __name__ == "__main__":
     task_data = {} # initalize task_data at the start
@@ -96,7 +101,7 @@ if __name__ == "__main__":
                                 "createdAt": added_task.createdAt, 
                                 "updatedAt": added_task.updatedAt}})
         case "update": #should be done update id_number "new_description"
-            updated_task = update_task(args.attribute1, args.attribute2)
+            updated_task = update_task(args.attribute2, task_data.get(args.attribute1))
         case _:
             print("Command not found")
 
