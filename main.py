@@ -35,20 +35,6 @@ Task Properties:
 
 """
 class Task:
-    """
-    Initialize values and add functions as needed.
-    
-    * ADD FUNCTION (either will be in the class or outside function)
-        * When a Task object is first created, it needs to be stored in a container so later, we can look at the size of the container, 
-          to know what id we are on.
-        * Id tracking can work many different ways. My first though is, lets use a to store the ids as keys and the task object data as the value. 
-        * Issues that need to be handled. If task 2 is deleted, should the user be able to make a new task 2? Id say no, because no function 
-        lets them add a task with a specific id, just update specific ids. 
-        * Other idea if dictionary does not work, we can store the id numbers in a container, check the max values of container and add 
-          that + 1 to the id.
-        * When add is called, a task should be created. The id should increment by 1, the descrption should take the string of add, 
-          the status should default to not started, createdAt needs to be grabbed from the computer, and updatedAt defaults to None since is was just created
-    """
     def __init__(self, id=-1, description="N/A", status="N/A", createdAt="N/A", updatedAt="N/A"):
         self.id = id
         self.description = description
@@ -72,6 +58,9 @@ def add_task(id, descrption):
     
     return new_task
 
+def update_task(id, new_description):
+    pass
+
 if __name__ == "__main__":
     task_data = {} # initalize task_data at the start
 
@@ -90,25 +79,26 @@ if __name__ == "__main__":
     else: # check the dictionary for the biggest key, since that key will be the max id in that moment
         id_counter = len(task_data) + 1
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog="task-cli")
 
     parser.add_argument("command")
-    parser.add_argument("attribute", nargs="?") #? makes it a opitional positional argument
+    parser.add_argument("attribute1", nargs="?") #? makes it a opitional positional argument
+    parser.add_argument("attribute2", nargs="?") #? makes it a opitional positional argument
 
     args = parser.parse_args()
     
     match args.command:
         case "add":
-            added_task = (add_task(id_counter, args.attribute)) #should take id and the optional positional command
+            added_task = add_task(id_counter, args.attribute1) #should take id and the optional positional command
             task_data.update(  {added_task.id : 
                                {"description": added_task.description,
                                 "status": added_task.status, 
                                 "createdAt": added_task.createdAt, 
                                 "updatedAt": added_task.updatedAt}})
+        case "update": #should be done update id_number "new_description"
+            updated_task = update_task(args.attribute1, args.attribute2)
         case _:
             print("Command not found")
 
     with open("data.json", "w") as file:
         json.dump(task_data, file, indent=2)
-    
-    # UNCOMMENT LATER: args.update[0] = int(args.update[0]) # Converts first argument of update into an int from the list.
