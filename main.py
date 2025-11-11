@@ -108,7 +108,10 @@ if __name__ == "__main__":
         case "update": #should be done update id_number "new_description"
             update_task(args.attribute2, task_data.get(args.attribute1))
         case "delete":
-            delete_task(task_data, args.attribute1)
+            try:
+                delete_task(task_data, args.attribute1)
+            except KeyError:
+                print(f"Task ID {args.attribute1} does not exist, meaning the task does not exist.")
         case _:
             print("Command not found")
 
