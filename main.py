@@ -67,7 +67,7 @@ def update_task(new_description, selected_task):
     return None
 
 def delete_task(task_data, id):
-    task_data.pop(args.attribute1)
+    task_data.pop(id)
 
     return None
 
@@ -76,7 +76,8 @@ if __name__ == "__main__":
 
     try: # checks if data.json exists
         with open("data.json", "r") as file:
-            task_data = json.load(file) # currently loads back id as a string. NEED TO REMEMBER THAT!
+            task_data = json.load(file) # currently loads back id as a int. NEED TO REMEMBER THAT!
+            task_data = {int(k): v for k, v in task_data.items()}
     except FileNotFoundError: # if it does not exist, that means it is the first time so we need to create the file.
         with open("data.json", "w") as file:
             json.dump(task_data, file, indent=2)
@@ -87,7 +88,7 @@ if __name__ == "__main__":
     if not bool(task_data): # if dict is empty
         id_counter = 1
     else: # check the dictionary for the biggest key, since that key will be the max id in that moment
-        id_counter = len(task_data) + 1
+        id_counter = max(task_data) + 1
 
     parser = argparse.ArgumentParser(prog="task-cli")
 
@@ -106,15 +107,17 @@ if __name__ == "__main__":
                                 "createdAt": added_task.createdAt, 
                                 "updatedAt": added_task.updatedAt}})
         case "update": #should be done update id_number "new_description"
-            if args.attribute1 not in task_data.keys():
-                print(f"Task ID {args.attribute1} does not exist, meaning the task does not exist and can not be updated.")
+            user_input_id = int(args.attribute1)
+            if user_input_id not in task_data.keys():
+                print(f"Task ID {user_input_id} does not exist, meaning the task does not exist and can not be updated.")
             else:
-                update_task(args.attribute2, task_data.get(args.attribute1))
+                update_task(args.attribute2, task_data.get(user_input_id))
         case "delete":
-            if args.attribute1 not in task_data.keys():
-                print(f"Task ID {args.attribute1} does not exist, meaning the task does not exist and can not be deleted.")
+            user_input_id = int(args.attribute1)
+            if user_input_id not in task_data.keys():
+                print(f"Task ID {user_input_id} does not exist, meaning the task does not exist and can not be deleted.")
             else:
-                delete_task(task_data, args.attribute1)
+                delete_task(task_data, user_input_id)
         case _:
             print("Command not found")
 
