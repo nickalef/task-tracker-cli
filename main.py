@@ -106,7 +106,10 @@ if __name__ == "__main__":
                                 "createdAt": added_task.createdAt, 
                                 "updatedAt": added_task.updatedAt}})
         case "update": #should be done update id_number "new_description"
-            update_task(args.attribute2, task_data.get(args.attribute1))
+            if args.attribute1 not in task_data.keys():
+                print(f"Task ID {args.attribute1} does not exist, meaning the task does not exist and can not be updated.")
+            else:
+                update_task(args.attribute2, task_data.get(args.attribute1))
         case "delete":
             try:
                 delete_task(task_data, args.attribute1)
