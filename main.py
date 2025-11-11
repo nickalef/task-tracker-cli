@@ -66,6 +66,11 @@ def update_task(new_description, selected_task):
 
     return None
 
+def delete_task(task_data, id):
+    task_data.pop(args.attribute1)
+
+    return None
+
 if __name__ == "__main__":
     task_data = {} # initalize task_data at the start
 
@@ -101,7 +106,9 @@ if __name__ == "__main__":
                                 "createdAt": added_task.createdAt, 
                                 "updatedAt": added_task.updatedAt}})
         case "update": #should be done update id_number "new_description"
-            updated_task = update_task(args.attribute2, task_data.get(args.attribute1))
+            update_task(args.attribute2, task_data.get(args.attribute1))
+        case "delete":
+            delete_task(task_data, args.attribute1)
         case _:
             print("Command not found")
 
