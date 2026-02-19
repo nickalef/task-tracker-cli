@@ -2,38 +2,6 @@ import argparse
 from datetime import datetime
 import json
 
-"""
-The application should run from the command line, accept user actions and inputs as arguments, and store the tasks in a JSON file. 
-
-The user should be able to:
-    Add, Update, and Delete tasks
-    Mark a task as in progress or done
-    List all tasks
-    List all tasks that are done
-    List all tasks that are not done
-    List all tasks that are in progress
-
-Here are some constraints to guide the implementation:
-    You can use any programming language to build this project.
-    Use positional arguments in command line to accept user inputs.
-    Use a JSON file to store the tasks in the current directory.
-    The JSON file should be created if it does not exist.
-    Use the native file system module of your programming language to interact with the JSON file.
-    Do not use any external libraries or frameworks to build this project.
-    Ensure to handle errors and edge cases gracefully.
-
-Task Properties:
-    Each task should have the following properties:
-        id: A unique identifier for the task
-        description: A short description of the task
-        status: The status of the task (todo, in-progress, done)
-        createdAt: The date and time when the task was created
-        updatedAt: The date and time when the task was last updated
-
-    Make sure to add these properties to the JSON file when adding a new task and update them when updating a task.
-
-
-"""
 class Task:
     def __init__(self, id=-1, description="N/A", status="N/A", createdAt="N/A", updatedAt="N/A"):
         self.id = id
@@ -47,6 +15,13 @@ class Task:
     
     def __str__(self):
         return f"id: {self.id} | description: {self.description} | status: {self.status} | createdAt: {self.createdAt} | updatedAt: {self.updatedAt}"
+
+    def update_task(self, new_description):
+        raw_date_time = datetime.now()
+        clean_date_time = raw_date_time.strftime("%d/%m/%Y, %I:%M %p")
+        self.description = new_description
+        self.updatedAt = clean_date_time
+
 
 def add_task(id, descrption):
     status = "todo"
@@ -70,6 +45,8 @@ def delete_task(task_data, id):
     task_data.pop(id)
 
     return None
+
+
 
 if __name__ == "__main__":
     task_data = {} # initalize task_data at the start
@@ -97,7 +74,7 @@ if __name__ == "__main__":
     parser.add_argument("attribute2", nargs="?") #? makes it a opitional positional argument
 
     args = parser.parse_args()
-    
+
     match args.command:
         case "add":
             added_task = add_task(id_counter, args.attribute1) #should take id and the optional positional command
@@ -108,6 +85,7 @@ if __name__ == "__main__":
                                 "updatedAt": added_task.updatedAt}})
         case "update": #should be done update id_number "new_description"
             user_input_id = int(args.attribute1)
+
             if user_input_id not in task_data.keys():
                 print(f"Task ID {user_input_id} does not exist, meaning the task does not exist and can not be updated.")
             else:
@@ -118,6 +96,22 @@ if __name__ == "__main__":
                 print(f"Task ID {user_input_id} does not exist, meaning the task does not exist and can not be deleted.")
             else:
                 delete_task(task_data, user_input_id)
+        case "mark-in-progress": #updaters
+            user_input_id = int(args.attribute1)
+
+            if user_input_id not in task_data.keys():
+                print(f"Task ID {user_input_id} does not exist, meaning the task can not have it status changed.")
+            else:
+                #TODO: function call
+                print("Inside mark-in-progress")
+        case "mark-done": #updaters
+            print("Inside mark-done")
+        case "list":
+            print("Inside list")
+            #command list done
+            #command list todo
+            #command list in-progress
+            #command list <- meant to list all
         case _:
             print("Command not found")
 
