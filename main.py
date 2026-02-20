@@ -3,50 +3,32 @@ from datetime import datetime
 import json
 
 class Task:
-    def __init__(self, id=-1, description="N/A", status="N/A", createdAt="N/A", updatedAt="N/A"):
-        self.id = id
-        self.description = description
-        self.status = status
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
+    def __init__(self, new_id=-1, new_description="N/A"):
+        self.id = new_id
+        self.description = new_description
+        self.status = "todo"
+        raw_date_time = datetime.now()
+        clean_date_time = raw_date_time.strftime("%d/%m/%Y, %I:%M %p")
+        self.created_at = clean_date_time
+        self.updated_at = "N/A"
 
     def __repr__(self):
-        return f"Task(id={self.id}, description={self.description}, status={self.status}, createdAt={self.createdAt}, updatedAt={self.updatedAt})"
+        return f"Task(id={self.id}, description={self.description}, status={self.status}, createdAt={self.created_at}, updatedAt={self.updated_at})"
     
     def __str__(self):
-        return f"id: {self.id} | description: {self.description} | status: {self.status} | createdAt: {self.createdAt} | updatedAt: {self.updatedAt}"
+        return f"id: {self.id} | description: {self.description} | status: {self.status} | createdAt: {self.created_at} | updatedAt: {self.updated_at}"
 
     def update_task(self, new_description):
         raw_date_time = datetime.now()
         clean_date_time = raw_date_time.strftime("%d/%m/%Y, %I:%M %p")
         self.description = new_description
-        self.updatedAt = clean_date_time
+        self.updated_at = clean_date_time
 
-
-def add_task(id, descrption):
-    status = "todo"
-    raw_date_time = datetime.now()
-    clean_date_time = raw_date_time.strftime("%d/%m/%Y, %I:%M %p")
-    createdAt = clean_date_time
-    updatedAt = "Has not been updated yet"
-    new_task = Task(id, descrption, status, createdAt, updatedAt)
-    
-    return new_task
-
-def update_task(new_description, selected_task):
-    raw_date_time = datetime.now()
-    clean_date_time = raw_date_time.strftime("%d/%m/%Y, %I:%M %p")
-    selected_task.update({"description": new_description})
-    selected_task.update({"updatedAt": clean_date_time})
-
-    return None
 
 def delete_task(task_data, id):
     task_data.pop(id)
 
     return None
-
-
 
 if __name__ == "__main__":
     task_data = {} # initalize task_data at the start
@@ -78,11 +60,11 @@ if __name__ == "__main__":
     match args.command:
         case "add":
             added_task = add_task(id_counter, args.attribute1) #should take id and the optional positional command
-            task_data.update(  {added_task.id : 
+            task_data.update({added_task.id :
                                {"description": added_task.description,
                                 "status": added_task.status, 
-                                "createdAt": added_task.createdAt, 
-                                "updatedAt": added_task.updatedAt}})
+                                "createdAt": added_task.created_at,
+                                "updatedAt": added_task.updated_at}})
         case "update": #should be done update id_number "new_description"
             user_input_id = int(args.attribute1)
 
